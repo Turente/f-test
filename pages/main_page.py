@@ -14,4 +14,4 @@ class MainPage(BasePage):
     def should_be_login_link(self):
         assert self.is_element_present(
             *MainPageLocators.LOGIN_LINK
-        ), "Login link is not presented"
+        ), "Main page. Login link is not presented"

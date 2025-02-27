@@ -12,16 +12,16 @@ class LoginPage(BasePage):
         # проверка на корректный url адрес
         current_url = self.browser.current_url
         substring = "login"
-        assert substring in current_url, "There is no login URL"
+        assert substring in current_url, "Login page. There is no login URL"
 
     def should_be_login_form(self):
         # проверка, что есть форма логина
         assert self.is_element_present(
             *LoginPageLocators.LOGIN_FORM
-        ), "There is no login form"
+        ), "Login page. There is no login form"
 
     def should_be_register_form(self):
         # проверка, что есть форма регистрации на странице
         assert self.is_element_present(
             *LoginPageLocators.REGISTER_FORM
-        ), "There is no register form"
+        ), "Login page. There is no register form"
