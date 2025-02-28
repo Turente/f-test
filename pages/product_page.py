@@ -1,5 +1,6 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
+import time
 
 
 class ProductPage(BasePage):
@@ -12,7 +13,8 @@ class ProductPage(BasePage):
 
     def should_be_product_url(self):
         current_url = self.browser.current_url
-        substring = "?promo=newYear"
+        # substring = "?promo=newYear" активирую при выборе отдельной ссылки в тесте
+        substring = "?promo=offer"
         assert substring in current_url, "Product page. Invalid URL"
 
     def should_be_write_review_button(self):
@@ -41,6 +43,7 @@ class ProductPage(BasePage):
 
     # проверка сообщений о добавлении продукта в корзину
     def should_be_message_adding_to_basket_product(self):
+        time.sleep(2)
         self.should_be_message_adding_to_basket_product_name()
         self.should_be_message_adding_to_basket_product_price()
         self.should_be_product_name_included_in_message()
@@ -56,7 +59,7 @@ class ProductPage(BasePage):
         message = self.browser.find_element(
             *ProductPageLocators.MESSAGE_BASKET_PRODUCT_NAME
         ).text
-        assert product in message, f"Product page. {product} not included in {message}"
+        assert product == message, f"Product page. {product} not equal {message}"
 
     def should_be_message_adding_to_basket_product_price(self):
         assert self.is_element_present(
@@ -68,4 +71,4 @@ class ProductPage(BasePage):
         message = self.browser.find_element(
             *ProductPageLocators.MESSAGE_BASKET_PRODUCT_PRICE
         ).text
-        assert price == message, f"Product page. {price} not included in {message}"
+        assert price == message, f"Product page. {price} not equal {message}"
