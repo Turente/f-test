@@ -1,6 +1,5 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
-import time
 
 
 class ProductPage(BasePage):
@@ -13,8 +12,8 @@ class ProductPage(BasePage):
 
     def should_be_product_url(self):
         current_url = self.browser.current_url
-        # substring = "?promo=newYear" активирую при выборе отдельной ссылки в тесте
-        substring = "?promo=offer"
+        substring = "?promo=newYear"  # активирую при выборе отдельной ссылки в тесте
+        # substring = "?promo=offer"
         assert substring in current_url, "Product page. Invalid URL"
 
     def should_be_write_review_button(self):
@@ -43,7 +42,6 @@ class ProductPage(BasePage):
 
     # проверка сообщений о добавлении продукта в корзину
     def should_be_message_adding_to_basket_product(self):
-        time.sleep(2)
         self.should_be_message_adding_to_basket_product_name()
         self.should_be_message_adding_to_basket_product_price()
         self.should_be_product_name_included_in_message()
@@ -72,3 +70,17 @@ class ProductPage(BasePage):
             *ProductPageLocators.MESSAGE_BASKET_PRODUCT_PRICE
         ).text
         assert price == message, f"Product page. {price} not equal {message}"
+
+    # проверка, что элемент не появляется на странице в течение заданного времени
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(
+            *ProductPageLocators.SUCCESS_MESSAGE
+        ), "Product page. Success message is presented, but should not be"
+
+    # проверка, что элемент исчез в течении заданного времени
+    def should_be_disappeared_success_message(self):
+        assert self.is_disappeared(
+            *ProductPageLocators.SUCCESS_MESSAGE
+        ), "Product page. Success message does not disappear, it should disappear"
+
+

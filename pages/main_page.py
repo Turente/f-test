@@ -2,16 +2,13 @@ from .base_page import BasePage
 from .locators import MainPageLocators
 
 
-# создаем класс MainPage как наследник класса BasePage
+# Создаем класс MainPage как наследник класса BasePage
+# __init__: Это специальный метод инициализации (конструктор) в Python.
+# Вызывая super().__init__(), вы вызываете конструктор родительского класса (BasePage),
+# что позволяет ему выполнить свою логику и инициализировать любые атрибуты, которые он может иметь.
+# Конструктор с ключевым словом super на самом деле только вызывает конструктор класса предка и
+# передает ему все те аргументы, которые мы передали в конструктор MainPage.
+# Это заглушка
 class MainPage(BasePage):
-    # в аргументах указываем аргумент self , чтобы иметь доступ к атрибутам и методам класса:
-    def go_to_login_page(self):
-        # Так как браузер у нас хранится как аргумент класса BasePage, обращаться к нему нужно соответствующим образом с помощью self
-        link = self.browser.find_element(*MainPageLocators.LOGIN_LINK)
-        link.click()
-        # return LoginPage(browser=self.browser, url=self.browser.current_url)
-
-    def should_be_login_link(self):
-        assert self.is_element_present(
-            *MainPageLocators.LOGIN_LINK
-        ), "Main page. Login link is not presented"
+    def __init__(self, *args, **kwargs):
+        super(MainPage, self).__init__(*args, **kwargs)
