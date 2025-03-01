@@ -26,6 +26,10 @@ class BasePage:
         link.click()
         # return LoginPage(browser=self.browser, url=self.browser.current_url)
 
+    def go_to_basket_page(self):
+        link = self.browser.find_element(*BasePageLocators.BASKET_LINK)
+        link.click()
+
     def should_be_login_link(self):
         assert self.is_element_present(
             *BasePageLocators.LOGIN_LINK
@@ -64,20 +68,6 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
-
-    #   def solve_quiz_and_get_code(self):
-    #      alert = self.browser.switch_to.alert
-    #      x = alert.text.split(" ")[2]
-    #      answer = str(math.log(abs((12 * math.sin(float(x))))))
-    #      alert.send_keys(answer)
-    #      alert.accept()
-    #      try:
-    #           alert = self.browser.switch_to.alert
-    #          alert_text = alert.text
-    #          print(f"Your code: {alert_text}")
-    #          alert.accept()
-    #      except NoAlertPresentException:
-    #          print("No second alert presented")
 
     # метод, который проверяет, что элемент не появляется на странице в течение заданного времени
     # упадет, как только увидит искомый элемент. Не появился: успех, тест зеленый

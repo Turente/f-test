@@ -1,5 +1,8 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
 
 
 class ProductPage(BasePage):
@@ -48,6 +51,18 @@ class ProductPage(BasePage):
         self.should_be_product_price_included_in_message()
 
     def should_be_message_adding_to_basket_product_name(self):
+        """Проверяем, что сообщение о добавлении продукта в корзину отображает название."""
+        try:
+            WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located(
+                    ProductPageLocators.MESSAGE_BASKET_PRODUCT_NAME
+                )
+            )
+        except TimeoutException:
+            assert (
+                False
+            ), "Product page. There is no message adding to basket product name"
+
         assert self.is_element_present(
             *ProductPageLocators.MESSAGE_BASKET_PRODUCT_NAME
         ), "Product page. There is no message adding to basket product name"
@@ -60,6 +75,18 @@ class ProductPage(BasePage):
         assert product == message, f"Product page. {product} not equal {message}"
 
     def should_be_message_adding_to_basket_product_price(self):
+        """Проверяем, что сообщение о добавлении продукта в корзину отображает цену."""
+        try:
+            WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located(
+                    ProductPageLocators.MESSAGE_BASKET_PRODUCT_PRICE
+                )
+            )
+        except TimeoutException:
+            assert (
+                False
+            ), "Product page. There is no message adding to basket product price"
+
         assert self.is_element_present(
             *ProductPageLocators.MESSAGE_BASKET_PRODUCT_PRICE
         ), "Product page. There is no message adding to basket product price"
@@ -82,5 +109,3 @@ class ProductPage(BasePage):
         assert self.is_disappeared(
             *ProductPageLocators.SUCCESS_MESSAGE
         ), "Product page. Success message does not disappear, it should disappear"
-
-
