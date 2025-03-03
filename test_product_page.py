@@ -5,6 +5,38 @@ import pytest
 import time
 
 
+@pytest.mark.user_basket
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        email = str(time.time()) + "@fakemail.org"
+        login = str(864259) + "Ret"
+        link = "http://selenium1py.pythonanywhere.com/en-gb/accounts/login/"
+        self.login_page = LoginPage(browser, link)
+        self.login_page.open()
+        self.login_page.register_new_user(email, login)
+        self.login_page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        product_page = ProductPage(browser, link, 0)
+        product_page.open()
+        product_page.should_be_product_page()
+        product_page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(
+        self,
+        browser,
+    ):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        product_page = ProductPage(browser, link)
+        product_page.open()
+        product_page.should_be_product_page()
+        product_page.add_to_basket()
+        product_page.solve_quiz_and_get_code()
+        product_page.should_be_message_adding_to_basket_product()
+
+
 # @pytest.mark.parametrize(
 #    "link",
 #   [
@@ -23,6 +55,8 @@ import time
 #     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9",
 #   ],
 # )
+
+
 def test_guest_can_add_product_to_basket(
     browser,
 ):  # ,link): # если убираем параметризацию - тут нужно убрать линк
